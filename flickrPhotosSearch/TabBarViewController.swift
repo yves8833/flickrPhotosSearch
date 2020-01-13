@@ -17,10 +17,9 @@ class TabBarViewController: UITabBarController {
         self.navigationItem.title = item.tag == 0 ? "搜尋結果 " + searchName : "我的最愛"
     }
     
-    convenience init(With searchName: String, photosNumber: String) {
+    convenience init(With searchName: String) {
         self.init()
         self.searchName = searchName
-        self.photosNumber = photosNumber
         self.navigationItem.title = "搜尋結果 " + searchName
     }
 }

@@ -50,7 +50,6 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     }
 }
 
-
 class PhotosSearchCollectionViewCell: PhotoCollectionViewCell {
     lazy var collectionButton: UIButton = {
         let button = UIButton()

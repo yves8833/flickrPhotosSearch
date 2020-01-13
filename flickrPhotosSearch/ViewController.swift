@@ -95,19 +95,17 @@ extension ViewController {
             return
         }
         
-        let tabBarViewController = TabBarViewController.init(With: searchName, photosNumber: photosNumber)
-        let flickrPhotosSearchResultViewController = PhotosSearchViewController.init(With: searchName, photosNumber: photosNumber)
+        let tabBarViewController = TabBarViewController.init(With: searchName)
         
+        let photosSearchViewController = PhotosSearchViewController.init(With: searchName, photosNumber: photosNumber)
         let item1 : UITabBarItem = .init(tabBarSystemItem: .featured, tag: 0)
-        item1.title = "搜尋結果 " + searchName
-        flickrPhotosSearchResultViewController.tabBarItem = item1
+        photosSearchViewController.tabBarItem = item1
         
         let favoriteViewController = FavoriteViewController()
         let item2 : UITabBarItem = .init(tabBarSystemItem: .favorites, tag: 1)
-        item2.title = "我的最愛"
         favoriteViewController.tabBarItem = item2
         
-        tabBarViewController.viewControllers = [flickrPhotosSearchResultViewController, favoriteViewController]
+        tabBarViewController.viewControllers = [photosSearchViewController, favoriteViewController]
         
         self.navigationController?.pushViewController(tabBarViewController, animated: true)
     }
