@@ -96,6 +96,7 @@
 				E4D6A98123C9C731008FFCDC /* Assets.xcassets */,
 				E4D6A98323C9C731008FFCDC /* LaunchScreen.storyboard */,
 				E4D6A98623C9C731008FFCDC /* Info.plist */,
+				E42E7FEA23CCBFD30086535B /* DataPersistant.swift */,
 			);
 			path = flickrPhotosSearch;
 			sourceTree = "<group>";
