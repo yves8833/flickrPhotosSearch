@@ -18,10 +18,3 @@ class CustomButton: UIButton {
 
 }
 
-//class CollectionButton: UIButton {
-//    var isSe: Bool {
-//        didSet {
-//            self.set
-//        }
-//    }
-//}

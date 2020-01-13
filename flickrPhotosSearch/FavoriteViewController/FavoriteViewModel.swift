@@ -10,14 +10,12 @@ import UIKit
 
 class FavoriteViewModel: NSObject {
     
-    var photos: Dictionary<String, Any>? {
-        guard let photos = UserDefaults.standard.dictionary(forKey: "photo") else { return nil }
-        return photos
+    var photos: Dictionary<String, Any> {
+        return DataPersistant.photos()
     }
     
-    var photoIDs: [String]? {
-        guard let photoIDs = UserDefaults.standard.array(forKey: "photoIDs") as? [String] else { return nil }
-        return photoIDs
+    var photoIDs: [String] {
+        return DataPersistant.photoIDs()
     }
     
     func downloadImage(from url: URL,  completedHandler:(@escaping (_ image: UIImage?) -> Void)) {

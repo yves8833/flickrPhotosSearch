@@ -34,11 +34,6 @@ class PhotosSearchViewController: UIViewController {
         
         view.addSubview(activityIndicatorView)
         
-        NSLayoutConstraint.activate([
-            activityIndicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            activityIndicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
-        
         return activityIndicatorView
     }()
     
@@ -151,37 +146,20 @@ extension PhotosSearchViewController: UICollectionViewDelegate, UICollectionView
         let cell: PhotosSearchCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotosSearchCollectionViewCellReuseIdentifier, for: indexPath) as! PhotosSearchCollectionViewCell
         guard let photos = viewModel.photos else { return cell }
         
-        if let photoIDs = UserDefaults.standard.array(forKey: "photoIDs") {
-            cell.collectionButton.isSelected = photoIDs.contains { (id) -> Bool in
-                return photos[indexPath.row].id == id as! String
-            }
-        }
         
-        let collectionPhoto = ["title": photos[indexPath.row].title, "imageUrl": photos[indexPath.row].url]
-    
+        cell.collectionButton.isSelected = DataPersistant.photoIDs().contains{ $0 == photos[indexPath.row].id }
+        
+        
         cell.selectAction = {
-            if var collectionPhotos = UserDefaults.standard.dictionary(forKey: "photo"), var photoIDs = UserDefaults.standard.array(forKey: "photoIDs") {
-                photoIDs.append(photos[indexPath.row].id)
-                collectionPhotos[photos[indexPath.row].id] = collectionPhoto
+            let collectionPhoto = ["title": photos[indexPath.row].title, "imageUrl": photos[indexPath.row].url]
                 
-                UserDefaults.standard.set(photoIDs, forKey: "photoIDs")
-                UserDefaults.standard.set(collectionPhotos, forKey: "photo")
-            } else {
-                UserDefaults.standard.set([photos[indexPath.row].id], forKey: "photoIDs")
-                let collectionPhotos = [photos[indexPath.row].id: collectionPhoto]
-                UserDefaults.standard.set(collectionPhotos, forKey: "photo")
-            }
+            DataPersistant.addPhotoId(With: photos[indexPath.row].id)
+            DataPersistant.addPhoto(With: photos[indexPath.row].id, photo: collectionPhoto)
         }
         
         cell.rejectAction = {
-            if var collectionPhotos = UserDefaults.standard.dictionary(forKey: "photo"), var photoIDs = UserDefaults.standard.array(forKey: "photoIDs") {
-                collectionPhotos.removeValue(forKey: photos[indexPath.row].id)
-                photoIDs = photoIDs.filter { (id) -> Bool in
-                    return photos[indexPath.row].id != id as! String
-                }
-                UserDefaults.standard.set(photoIDs, forKey: "photoIDs")
-                UserDefaults.standard.set(collectionPhotos, forKey: "photo")
-            }
+            DataPersistant.removePhotoId(With: photos[indexPath.row].id)
+            DataPersistant.removePhoto(With: photos[indexPath.row].id)
         }
         
         cell.titleLabel.text = photos[indexPath.row].title

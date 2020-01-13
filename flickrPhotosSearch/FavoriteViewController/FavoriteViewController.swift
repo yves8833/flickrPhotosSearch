@@ -50,8 +50,8 @@ class FavoriteViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        collectionView.isHidden = (viewModel.photoIDs?.count ?? 0) == 0
-        errorLabel.isHidden = !((viewModel.photoIDs?.count ?? 0) == 0)
+        collectionView.isHidden = viewModel.photoIDs.count == 0
+        errorLabel.isHidden = !(viewModel.photoIDs.count == 0)
         
         collectionView.reloadData()
     }
@@ -80,13 +80,13 @@ extension FavoriteViewController {
 // MARK: UICollectionViewDelegate, UICollectionViewDataSource
 extension FavoriteViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.photoIDs?.count ?? 0
+        return viewModel.photoIDs.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: PhotoCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCellReuseIdentifier, for: indexPath) as! PhotoCollectionViewCell
-        guard let id = viewModel.photoIDs?[indexPath.row],
-            let photo = viewModel.photos?[id] as? Dictionary<String, String>,
+        guard
+            let photo = viewModel.photos[viewModel.photoIDs[indexPath.row]] as? Dictionary<String, String>,
             let title = photo["title"],
             let imageUrl = photo["imageUrl"]
             else { return cell }
